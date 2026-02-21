@@ -644,7 +644,7 @@ export default function App() {
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <span style={{ fontSize: 12, color: textSecondary }}>Total Budget:</span>
                   <div style={{ position: "relative" }}>
-                    <span style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", fontSize: 14, color: textSecondary }}>$</span>
+                    <span style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", fontSize: 14, color: textSecondary }}>£</span>
                     <input type="number" value={totalBudget || ""} onChange={(e) => updateBudget(+e.target.value)} style={{ ...inputStyle, width: 140, paddingLeft: 24, background: surfaceBg, borderColor }} />
                   </div>
                 </div>
