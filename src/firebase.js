@@ -8,8 +8,8 @@ import { getDatabase } from 'firebase/database';
 // ╚═══════════════════════════════════════════════════════════╝
 const firebaseConfig = {
   apiKey: "AIzaSyD968sLOt8xbRnUAPFdoZRfXVWEddPd1EY",
-  authDomain: "wedding-budget-tracker-40902.firebaseapp.com",
-  databaseURL: "https://wedding-budget-tracker-40902-default-rtdb.firebaseio.com",
+  authDomain: "wedding-budget-tracker-v4.vercel.app/",
+  databaseURL: "https://wedding-budget-tracker-40902-default-rtdb.firebaseio.com/",
   projectId: "wedding-budget-tracker-40902",
   storageBucket: "wedding-budget-tracker-40902.firebasestorage.app",
   messagingSenderId: "767975547713",
