@@ -353,7 +353,10 @@ export default function App() {
   const [editingExpense, setEditingExpense] = useState(null);
   const [expenseForm, setExpenseForm] = useState({ category: "", description: "", vendor: "", amount: "", status: "unpaid", date: "" });
   const [newCatName, setNewCatName] = useState("");
-  const [newCatIcon, setNewCatIcon] = useState("📌");
+  const [newCatIcon, setNewCatIcon] = useState("📌")
+  const [editingCat, setEditingCat] = useState(null);
+const [editCatName, setEditCatName] = useState("");
+const [editCatIcon, setEditCatIcon] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCat, setFilterCat] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
@@ -478,6 +481,12 @@ export default function App() {
     dbSet(`categories/${id}`, { id, name: newCatName.trim(), icon: newCatIcon, budget: 0 });
     setNewCatName(""); setNewCatIcon("📌"); setModalOpen(null);
   };
+  const saveEditCategory = () => {
+  if (!editCatName.trim() || !editingCat) return;
+  dbUpdate(`categories/${editingCat.id}`, { name: editCatName.trim(), icon: editCatIcon });
+  setModalOpen(null);
+  setEditingCat(null);
+};
   const setCatBudget = (id, val) => dbUpdate(`categories/${id}`, { budget: +val });
   const deleteCat = (id) => {
     dbRemove(`categories/${id}`);
@@ -780,9 +789,10 @@ export default function App() {
                           <div style={{ fontSize: 12, color: textSecondary }}>{expenses.filter((e) => e.category === c.id).length} expenses</div>
                         </div>
                       </div>
-                      {!DEFAULT_CATEGORIES.find((dc) => dc.id === c.id) && (
-                        <button onClick={() => deleteCat(c.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#C0392B", fontSize: 13 }}>✕</button>
-                      )}
+                     <div style={{ display: "flex", gap: 6 }}>
+  <button onClick={() => { setEditingCat(c); setEditCatName(c.name); setEditCatIcon(c.icon); setModalOpen("edit-category"); }} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 13, color: textSecondary }}>✏️</button>
+  <button onClick={() => deleteCat(c.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#C0392B", fontSize: 13 }}>🗑</button>
+</div>
                     </div>
                     <Field label="Category Budget ($)">
                       <input type="number" value={c.budget || ""} onChange={(e) => setCatBudget(c.id, e.target.value)} placeholder="0" style={{ ...inputStyle, background: surfaceBg, borderColor }} />
@@ -915,6 +925,15 @@ export default function App() {
           <button onClick={addCategory} style={btnPrimary}>Add Category</button>
         </div>
       </Modal>
+      {/* ── EDIT CATEGORY MODAL ── */}
+<Modal open={modalOpen === "edit-category"} onClose={() => setModalOpen(null)} title="Edit Category">
+  <Field label="Category Name"><input value={editCatName} onChange={(e) => setEditCatName(e.target.value)} style={inputStyle} /></Field>
+  <Field label="Icon (emoji)"><input value={editCatIcon} onChange={(e) => setEditCatIcon(e.target.value)} style={{ ...inputStyle, width: 80, fontSize: 22, textAlign: "center" }} maxLength={2} /></Field>
+  <div style={{ display: "flex", gap: 10, marginTop: 8, justifyContent: "flex-end" }}>
+    <button onClick={() => setModalOpen(null)} style={btnSecondary}>Cancel</button>
+    <button onClick={saveEditCategory} style={btnPrimary}>Save Changes</button>
+  </div>
+</Modal>
 
       <footer style={{ textAlign: "center", padding: "32px 16px", color: textSecondary, fontSize: 11, letterSpacing: 1, fontFamily: "'Cormorant Garamond', serif" }}>
         ✦ Made with love for your special day ✦
