@@ -179,7 +179,7 @@ function GuestList({ guests, onAdd, onRemove, onUpdate, costPerGuest, onCostChan
   const confirmed = guests.filter((g) => g.rsvp === "confirmed").length;
   return (
     <div>
-      <Field label="Cost Per Guest ($)">
+      <Field label="Cost Per Guest (£)">
         <input type="number" value={costPerGuest || ""} onChange={(e) => onCostChange(+e.target.value)} placeholder="0" style={inputStyle} />
       </Field>
       <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
